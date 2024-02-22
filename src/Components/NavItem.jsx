@@ -1,18 +1,41 @@
-import React from "react";
-import { twMerge } from "tailwind-merge";
+import { Box, Flex, Icon } from '@chakra-ui/react';
+import React from 'react'
 
-const NavItem = ({ active, id, handleActive, icon }) => {
-  return (
-    <div
-      className={twMerge("m-auto flex w-[50px] cursor-pointer justify-center rounded-md px-1 py-3 ",
-        active === id && "bg-black",
-      )}
-      onClick={() => handleActive(id)}
-    >
-      {icon}
+const NavItem = ({ icon, children, ...rest }) => {
+    return (
+      <Box
+        as="a"
+        href="#"
+        style={{ textDecoration: "none" }}
+        _focus={{ boxShadow: "none" }}
+      >
+        <Flex
+          align="center"
+          p="4"
+          mx="4"
+          borderRadius="lg"
+          role="group"
+          cursor="pointer"
+          _hover={{
+            bg: "cyan.400",
+            color: "white",
+          }}
+          {...rest}
+        >
+          {icon && (
+            <Icon
+              mr="4"
+              fontSize="16"
+              _groupHover={{
+                color: "white",
+              }}
+              as={icon}
+            />
+          )}
+          {children}
+        </Flex>
+      </Box>
+    );
+  };
 
-    </div>
-  );
-};
-
-export default NavItem;
+export default NavItem

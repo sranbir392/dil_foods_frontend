@@ -1,119 +1,133 @@
-import React, { useState } from "react";
-import { useMediaQuery } from "react-responsive";
+import React, { useEffect, useState } from "react";
+import {
+  Box,
+  Flex,
+  useColorModeValue,
+  Drawer,
+  DrawerContent,
+  useDisclosure,
+  Text,
+  Button,
+} from "@chakra-ui/react";
+// import BarChart from "./BarChart";
+// import LineChart from "./LineChart";/
+// import PieChart from "./PieChart";
+import { useDispatch, useSelector } from "react-redux";
+import { Navigate, useNavigate, useSearchParams } from "react-router-dom";
+// import { getData, getTopSelling } from "../redux/chartData/chartData.action";
+// import Loader from "./Loader";
+// import SelectYear from "./SelectYear";
+// import Ecommerce from "./Ecommerce";
+// import MobileNav from "./MobileNav";
+// import SideBarContent from "./SideBarContent";
+// import { generateRandomColor } from "../scripts/generateColors";
 
-import { GoHome, GoGraph } from "react-icons/go";
-import { FaRegFileAlt } from "react-icons/fa";
-import { MdOutlineMessage, MdPersonOutline } from "react-icons/md";
-import { PiSquaresFourLight } from "react-icons/pi";
-import { CiSettings } from "react-icons/ci";
+import BottomBar from "./BottomBar";
+import {  getHeaderData } from "../redux/action";
+import SideBarItem from "./SideBarItem";
+import Analytics from './Analytics/Analytics';
+import Loader from "./Loader";
 
-import NavItem from "./NavItem";
-import { twMerge } from "tailwind-merge";
+const Sidebar = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const dispatch = useDispatch();
+  const navigate=useNavigate()
+  const { loading, data,error } = useSelector(
+    (store) => store.data
+  );
+  const [searchParams] = useSearchParams();
+  const [year, setCurrentYear] = useState(searchParams.get("year") || "2024");
+  
 
-const NavigationBar = () => {
-  const [active, setActive] = useState(1);
-  const iconsOnly = useMediaQuery({
-    query: "(max-width: 700px)",
-  });
-  const optionsIcon = useMediaQuery({
-    query: "(max-width:393px)",
-  });
+  useEffect(() => {
+    dispatch(getHeaderData(year));
 
-  const content = [
-    {
-      icon: <GoHome color="white" size={20} />,
-      title: "home",
-      id: 1,
-    },
-    {
-      icon: <PiSquaresFourLight color="white" size={20} />,
-      title: "options",
-      id: 2,
-    },
-    {
-      icon: <FaRegFileAlt color="white" size={20} />,
-      title: "home",
-      id: 3,
-    },
-    {
-      icon: <GoGraph color="white" size={20} />,
-      title: "statistics",
-      id: 4,
-    },
-    {
-      icon: <MdOutlineMessage color="white" size={20} />,
-      title: "messages",
-      id: 5,
-    },
-    {
-      icon: <MdPersonOutline color="white" size={20} />,
-      title: "home",
-      id: 6,
-    },
-    {
-      icon: <CiSettings color="white" size={20} />,
-      title: "settings",
-      id: 7,
-    },
-  ];
+    // dispatch(getTopSelling(year));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [year]);
 
-  const handleActive = (id) => setActive(id);
+  // useEffect(() => {
+  //   setSalesData({
+  //     labels: chartData?.map((data) => data.month),
+  //     datasets: [
+  //       {
+  //         label: "Total Revenue",
+  //         data: chartData?.map((data) => data.revenue),
+  //         backgroundColor: generateRandomColor(),
+  //         borderColor: "black",
+  //         borderWidth: 2,
+  //       },
+  //       {
+  //         label: "Total Users Active",
+  //         data: chartData?.map((data) => data.userActivity),
+  //         backgroundColor: generateRandomColor(),
+  //         borderColor: "black",
+  //         borderWidth: 2,
+  //       },
+  //       {
+  //         label: "Total Sales",
+  //         data: chartData?.map((data) => data.sales),
+  //         backgroundColor: generateRandomColor(),
+  //         borderColor: "black",
+  //         borderWidth: 2,
+  //       },
+  //     ],
+  //   });
+  // }, [chartData]);
+
+  useEffect(() => {
+    setCurrentYear(searchParams.get("year") || "2024");
+  }, [searchParams]);
 
   return (
-    <div
-      className={twMerge(
-        "z-20 h-screen w-[100px] space-y-4 bg-[#161717] py-4",
-        iconsOnly &&
-          "fixed bottom-0 flex h-fit w-full justify-evenly align-middle",
-      )
-    
-    }
-    style={{backgroundColor:"black"}}
-    >
-      {!iconsOnly && (
-        <img
-        // className="m-auto h-6 w-6"
-
-          src="https://dilfoods.in/wp-content/uploads/2023/04/Dil-Foods-new-logo.png"
-          alt="logo"
-          style={{width:"20px"}}
-
-        />
-      )}
-      <div
-        className={twMerge(
-          "w-full space-y-4",
-          iconsOnly && "flex justify-evenly space-y-0 align-middle",
-        )}
+    <Box  bg={useColorModeValue("gray.100", "gray.900")}>
+      <SideBarItem
+        onClose={onClose}
+        display={{ base: "none", md: "block" }}
+      />
+      <Drawer
+        isOpen={isOpen}
+        placement="left"
+        onClose={onClose}
+        returnFocusOnClose={false}
+        onOverlayClick={onClose}
+        size="full"
       >
-        {content.map((item, i) => {
-          if (optionsIcon) {
-            if (i < 4) {
-              return (
-                <NavItem
-                  {...item}
-                  active={active}
-                  handleActive={handleActive}
-                  key={item.id}
-                />
-              );
-            } else {
-              return null;
-            }
-          } else {
-            return (
-              <NavItem
-                {...item}
-                active={active}
-                handleActive={handleActive}
-                key={item.id}
-              />
-            );
-          }
-        })}
-      </div>
-    </div>
+        <DrawerContent>
+          <SideBarItem onClose={onClose} />
+        </DrawerContent>
+      </Drawer>
+      {/* mobilenav */}
+      <BottomBar onOpen={onOpen} />
+      <Flex ml={{ base: 0, md: 60 }} p="4" >
+        {/* <SelectYear /> */}
+
+        {loading ? (
+          <Flex  justifyContent={"center"} alignItems={"center"}>
+          <Loader/>
+          </Flex>
+        ) : (
+          <>
+            <Flex w="100%"> 
+              {window.location.pathname.includes("home") ? (
+                <Flex justifyContent={"center"} flexDirection={"column"} alignItems={"center"} gap={"10px"}>
+                  
+                <Text fontSize={"22px" }>Website is in Progress.</Text>
+                <Button onClick={()=>navigate("/analytics")}>Go to Analytics</Button>
+              </Flex>
+                
+                
+              ) :  (
+                <Flex w="100%">
+                <Analytics/>
+              </Flex>
+              )}
+            </Flex>
+          </>
+        )}
+      </Flex>
+    </Box>
   );
 };
 
-export default NavigationBar;
+export default Sidebar;
