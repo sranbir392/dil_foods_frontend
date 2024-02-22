@@ -1,62 +1,8 @@
 import React from 'react'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-const DataChart= () => {
-    const data=[
-        {
-        name:"January",
-        value:1500,
-        },
-        {
-            name:"Febuary",
-            value:2400,
-        },
-        
-        {
-            name:"March",
-            value:1700,
-        }
-        ,
-        {
-            name:"April",
-            value:2000,
-        }
-        ,
-        {
-            name:"May",
-            value:2400,
-        },
-    
-        {
-            name:"June",
-            value:2700,
-        },
-        
-        {
-            name:"July",
-            value:2300,
-        },
-        {
-            name:"August",
-            value:1600,
-        },
-        {
-            name:"September",
-            value:1900,
-        },
-        {
-            name:"October",
-            value:2200,
-        },
-        {
-            name:"November",
-            value:2700,
-        },
-        {
-            name:"December",
-            value:3000,
-        },
-
-    ]
+const DataChart= (props) => {
+  const {data}={...props}
+ 
     const getTickFontSize = () => {
         const screenWidth = window.innerWidth;
     
