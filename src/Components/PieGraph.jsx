@@ -3,39 +3,8 @@ import React from 'react'
 import { PieChart, Pie, Sector, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
 
 
-const PieGraph = () => {
-    const data=[
-        {
-            name:"Dil Punjabi",
-            value:300,
-        },
-        {
-            name:"Bihari Bowl",
-             value:400,
-        },
-        {
-            name:"Khichdi Bar",
-     value:200,
-        },
-        {
-            name:"All Things Fried",
-     value:300,
-        },
-        {
-            name:"Chinease Kaka",
-     value:200,
-        },
-        {
-            name:"Bowled Over",
-     value:150,
-        },
-        {
-            name:"BAM",
-     value:260,
-        }
-    ]
- 
-      
+const PieGraph = (props) => {
+  const {data}={...props}   
     const getTickFontSize = () => {
         const screenWidth = window.innerWidth;
     
@@ -57,7 +26,7 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
   const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
   return (
-    // <Flex justifyContent={"center"} alignItems={"center"}>
+  
     <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central" style={{fontSize:getTickFontSize()}}>
       {`${(percent * 100).toFixed(0)}%`}
     </text>

@@ -3,6 +3,7 @@
     height: 44px;
     animation: spinner-y0fdc1 2s infinite ease;
     transform-style: preserve-3d;
+    
    }
    
    .spinner > div {
@@ -11,6 +12,7 @@
     position: absolute;
     width: 100%;
     border: 2px solid #004dff;
+    
    }
    
    .spinner div:nth-of-type(1) {

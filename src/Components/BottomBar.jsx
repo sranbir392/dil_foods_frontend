@@ -53,8 +53,8 @@ import {
                     spacing="1px"
                     ml="2"
                   >
-                    <Text fontSize="xs" color="gray.600" fontWeight={400}>
-                      Arpita
+                    <Text fontSize="18px"  fontWeight={600}>
+                      Arpita Aditi
                     </Text>
                   </VStack>
                 </HStack>
